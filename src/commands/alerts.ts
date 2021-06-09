@@ -63,7 +63,7 @@ export class AlertsCommand implements IOpsgenieCommand {
             }
         }
 
-        this.log.output("]");
+        outputStream.end();
     }
 }
 
@@ -72,7 +72,7 @@ const command: IOpsgenieCommandDesc = {
     description: "Retrieves opsgenie alerts.",
     constructor: AlertsCommand,
     help: {
-        usage: "opsgenie alerts",
+        usage: "opsgenie alerts [options]",
         message: "Prints open Opsgenie alerts to the terminal. By default it lists open alerts.",
         arguments: [
             ["--query", `Search query to apply while filtering the alerts. Default: "status: open". Query syntax help: ${chalk.blue("https://docs.opsgenie.com/v1.0/docs/alerts-search-query-help")}`]

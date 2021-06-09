@@ -4,6 +4,7 @@
 
 - Can now filter alerts using the `--query=<query>` argument. This is in the format of an Opsgenie query like you'd use in the UI.
 - Fixed output from `alerts` so it's a proper JSON array.
+- Added `integrations` command to list integrations.
 
 ## 0.0.1
 

@@ -45,6 +45,19 @@ Use the debug argument to get debug logging:
 npx ts-node src/index.ts alerts --debug
 ```
 
+Using a search query for alerts:
+
+```bash
+npx ts-node src/index.ts alerts --query=oomkill
+```
+
+Listing integrations:
+
+```bash
+npx ts-node src/index.ts integrations
+```
+
+
 ## Building the executable
 
 MacOS: 
