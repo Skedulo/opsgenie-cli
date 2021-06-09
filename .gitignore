@@ -3,3 +3,4 @@ build/
 tsconfig.tsbuildinfo
 *.bak
 opsgenie-cli
+opsgenie
