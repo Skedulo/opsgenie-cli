@@ -19,9 +19,24 @@ export interface ILog {
     debug(...args: any[]): void;
 
     //
+    // Log output from the tool.
+    //
+    output(...args: any[]): void;
+
+    //
     // Information logging.
     //
     info(...args: any[]): void;
+
+    //
+    // Log a warning.
+    //
+    warn(...args: any[]): void;
+
+    //
+    // Log an error.
+    //
+    error(...args: any[]): void;
 }
 
 export class Log implements ILog {
@@ -68,12 +83,33 @@ export class Log implements ILog {
     }
 
     //
+    // Log output from the tool.
+    //
+    output(...args: any[]): void {
+        console.log(...args);
+    }
+
+    //
     // Information logging.
     //
     info(...args: any[]): void {
         if (!this.quietMode) {
             console.log(...args);
         }
+    }
+
+    //
+    // Log a warning.
+    //
+    warn(...args: any[]): void {
+        console.error(...args);
+    }
+
+    //
+    // Log an error.
+    //
+    error(...args: any[]): void {
+        console.error(...args);
     }
 
 }

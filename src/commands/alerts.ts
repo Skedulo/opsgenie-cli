@@ -1,7 +1,7 @@
-import { ILog, InjectableClass, InjectProperty } from "@codecapers/fusion";
+import { InjectableClass, InjectProperty } from "@codecapers/fusion";
 import { IOpsgenieCommand, IOpsgenieCommandDesc } from "../lib/opsgenie-command";
 import { IConfiguration_id, IConfiguration } from "../services/configuration";
-import { ILog_id } from "../services/log";
+import { ILog_id, ILog } from "../services/log";
 import axios from "axios";
 import chalk = require("chalk");
 
@@ -41,6 +41,8 @@ export class AlertsCommand implements IOpsgenieCommand {
             },
         };
 
+        this.log.output("[");
+
         const maxAlerts = 20000;
         let offset = 0;
         while (true) {
@@ -49,18 +51,23 @@ export class AlertsCommand implements IOpsgenieCommand {
                 break;
             }
 
-            offset += data.length;
-
             for (const alert of data) {
-                this.log.info(JSON.stringify(alert, null, 4));
+                if (offset > 0) {
+                    this.log.output(",");
+                }
+
+                this.log.output(JSON.stringify(alert, null, 4));
             }
         
+            offset += data.length;
+
             if (offset >= maxAlerts) {
-                this.log.info("Hit the maximum number of alerts that can be retreived from Opsgenie.");
+                this.log.warn("Hit the maximum number of alerts that can be retreived from Opsgenie.");
                 break;
             }
         }
 
+        this.log.output("]");
     }
 }
 
