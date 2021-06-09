@@ -4,6 +4,7 @@ import { IConfiguration_id, IConfiguration } from "../services/configuration";
 import { ILog_id, ILog } from "../services/log";
 import axios from "axios";
 import chalk = require("chalk");
+import { OutputStream } from "../lib/output-stream";
 
 const pageSize = 100; // The max.
 
@@ -41,7 +42,8 @@ export class AlertsCommand implements IOpsgenieCommand {
             },
         };
 
-        this.log.output("[");
+        const outputStream = new OutputStream();
+        outputStream.start();
 
         const maxAlerts = 20000;
         let offset = 0;
@@ -51,13 +53,7 @@ export class AlertsCommand implements IOpsgenieCommand {
                 break;
             }
 
-            for (const alert of data) {
-                if (offset > 0) {
-                    this.log.output(",");
-                }
-
-                this.log.output(JSON.stringify(alert, null, 4));
-            }
+            outputStream.add(data);
         
             offset += data.length;
 
