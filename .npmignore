@@ -1,0 +1,16 @@
+src/
+node_modules/
+.vscode/
+.gitignore
+*.log
+test/
+build/test/
+todo.txt
+todo.md
+.nyc_output/
+tsconfig.json
+tsconfig.tsbuildinfo
+tslint.json
+nodemon.json
+jest.config.js
+.env
