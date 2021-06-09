@@ -1,11 +1,9 @@
 import { ILog, InjectableClass, InjectProperty } from "@codecapers/fusion";
-import { IOpsgenieCommand, IOpsgenieCommandDesc as ICommandDesc } from "../lib/opsgenie-command";
+import { IOpsgenieCommand, IOpsgenieCommandDesc } from "../lib/opsgenie-command";
 import { IConfiguration_id, IConfiguration } from "../services/configuration";
-import { IEnvironment, IEnvironment_id } from "../services/environment";
-import { IFs, IFs_id } from "../services/fs";
-import { IProgressIndicator, IProgressIndicator_id } from "../services/progress-indicator";
 import { ILog_id } from "../services/log";
 import axios from "axios";
+import chalk = require("chalk");
 
 const pageSize = 100; // The max.
 
@@ -23,17 +21,8 @@ async function listAlerts(query: string, offset: number, apiKey: string, options
 @InjectableClass()
 export class AlertsCommand implements IOpsgenieCommand {
 
-    @InjectProperty(IEnvironment_id)
-    environment!: IEnvironment;
-
     @InjectProperty(IConfiguration_id)
     configuration!: IConfiguration;
-
-    @InjectProperty(IFs_id)
-    fs!: IFs;
-
-    @InjectProperty(IProgressIndicator_id)
-    progressIndicator!: IProgressIndicator;
 
     @InjectProperty(ILog_id)
     log!: ILog;
@@ -43,7 +32,8 @@ export class AlertsCommand implements IOpsgenieCommand {
         if (!apiKey) {
             throw new Error(`Please set environment variable OPSGENIE_API_KEY to your API key.`);
         }
-        const query = "status: open";
+
+        const query = this.configuration.getArg("query") || "status: open";
 
         const options = {
             headers: {
@@ -74,14 +64,16 @@ export class AlertsCommand implements IOpsgenieCommand {
     }
 }
 
-const command: ICommandDesc = {
+const command: IOpsgenieCommandDesc = {
     name: "alerts",
     description: "Retrieves opsgenie alerts.",
     constructor: AlertsCommand,
     help: {
         usage: "opsgenie alerts",
-        message: "Prints open Opsgenie alerts to the terminal.",
-        arguments: [],
+        message: "Prints open Opsgenie alerts to the terminal. By default it lists open alerts.",
+        arguments: [
+            ["--query", `Search query to apply while filtering the alerts. Default: "status: open". Query syntax help: ${chalk.blue("https://docs.opsgenie.com/v1.0/docs/alerts-search-query-help")}`]
+        ],
     }
 };
 
