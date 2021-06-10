@@ -24,6 +24,25 @@ To get help:
 opsgenie --help
 ```
 
+To list integrations:
+
+```bash
+opsgenie integrations
+```
+
+To disable an integration:
+
+```bash
+opsgenie integrations disable <integration-id>
+```
+
+To enable an integration:
+
+```bash
+opsgenie integrations enable <integration-id>
+```
+
+
 ## Development
 
 ## Pre reqs
