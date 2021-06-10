@@ -33,14 +33,33 @@ opsgenie integrations
 To disable an integration:
 
 ```bash
-opsgenie integrations disable <integration-id>
+opsgenie integrations disable --id=<integration-id>
 ```
 
 To enable an integration:
 
 ```bash
-opsgenie integrations enable <integration-id>
+opsgenie integrations enable --id=<integration-id>
 ```
+
+You can also enable or disable integrations by name using the `--name=<integration-name>` argument.
+
+## Using jq for data transformations
+
+jq is a command line tool for working with JSON data: https://stedolan.github.io/jq/
+
+Using jq to extract a list of integration names:
+
+```bash
+opsgenie integrations | jq ".[] | .name"
+```
+
+Getting integration names as a JSON list:
+
+```bash
+opsgenie integrations | jq "[.[] | .name]"
+```
+
 
 
 ## Development
@@ -79,14 +98,26 @@ npx ts-node src/index.ts integrations
 Enable an integration:
 
 ```bash
-npx ts-node src/index.ts integrations enable <integration-id>
+npx ts-node src/index.ts integrations enable --id=<integration-id>
 ```
+
 Disable an integration:
 
 ```bash
-npx ts-node src/index.ts integrations disable <integration-id>
+npx ts-node src/index.ts integrations disable --id=<integration-id>
 ```
 
+Enable an integration ny name:
+
+```bash
+npx ts-node src/index.ts integrations enable --name="Amazon RDS Test"
+```
+
+Disable an integration by name
+
+```bash
+npx ts-node src/index.ts integrations disable --name="Amazon RDS Test"
+```
 
 
 ## Building the executable

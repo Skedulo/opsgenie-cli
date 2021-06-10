@@ -29,8 +29,7 @@ export class IntegrationsCommand implements IOpsgenieCommand {
 
         const subCommand = this.configuration.getMainCommand();
         if (subCommand === undefined) {
-            const listResponse = await axios.get(`https://api.opsgenie.com/v2/integrations`, options);
-            const integrations = listResponse.data.data;
+            const integrations = await this.listIntegrations(options);
     
             const outputStream = new OutputStream();
             outputStream.start();
@@ -38,31 +37,66 @@ export class IntegrationsCommand implements IOpsgenieCommand {
             outputStream.end();
         }
         else if (subCommand === "enable") {
-            this.configuration.consumeMainCommand();
-            const integrationId = this.configuration.getMainCommand();
-            if (integrationId === undefined) {
-                throw new Error(`Expected integration id like this: opsgenie integrations enable <integration-id>`);
+            const integrationId = this.configuration.getArg("id");
+            const integrationName = this.configuration.getArg("name");
+            if (!integrationId && !integrationName) {
+                throw new Error(`Please specify the integration using --id=<integration-id> or --name=<integration-name>. Integration name can contain wildcards using the * character.`);
             }
 
-            await axios.post(`https://api.opsgenie.com/v2/integrations/${integrationId}/enable`, {}, options);
-
-            this.log.info("Disabled integration.");
+            if (integrationId) {
+                await axios.post(`https://api.opsgenie.com/v2/integrations/${integrationId}/enable`, {}, options);
+                this.log.info("Enabled integration.");
+            }
+            else {
+                const integrations = await this.matchIntegrations(integrationName!, options);
+                for (const integration of integrations) {
+                    await axios.post(`https://api.opsgenie.com/v2/integrations/${integration.id}/enable`, {}, options);                   
+                }
+                this.log.info(`Enabled ${integrations.length} integrations.`);
+            }
         }
         else if (subCommand === "disable") {
-            this.configuration.consumeMainCommand();
-            const integrationId = this.configuration.getMainCommand();
-            if (integrationId === undefined) {
-                throw new Error(`Expected integration id like this: opsgenie integrations enable <integration-id>`);
+            const integrationId = this.configuration.getArg("id");
+            const integrationName = this.configuration.getArg("name");
+            if (!integrationId && !integrationName) {
+                throw new Error(`Please specify the integration using --id=<integration-id> or --name=<integration-name>. Integration name can contain wildcards using the * character.`);
             }
 
-            await axios.post(`https://api.opsgenie.com/v2/integrations/${integrationId}/disable`, {}, options);
-
-            this.log.info("Disabled integration.");
+            if (integrationId) {
+                await axios.post(`https://api.opsgenie.com/v2/integrations/${integrationId}/disable`, {}, options);
+                this.log.info("Disabled integration.");
+            }
+            else {
+                const integrations = await this.matchIntegrations(integrationName!, options);
+                for (const integration of integrations) {
+                    await axios.post(`https://api.opsgenie.com/v2/integrations/${integration.id}/disable`, {}, options);                   
+                }
+                this.log.info(`Disabled ${integrations.length} integrations.`);
+            }
         }
         else {
             throw new Error(`"${subCommand}" is an unexpected sub command for command "integrations"`);
         }       
 
+    }
+
+    //
+    // Gets the list of all integrations.
+    //
+    private async listIntegrations(options: any): Promise<any[]> {
+        const listResponse = await axios.get(`https://api.opsgenie.com/v2/integrations`, options);
+        const integrations = listResponse.data.data;
+        return integrations;
+    }
+
+    //
+    // Match integrations by name.
+    //
+    private async matchIntegrations(name: string, options: any): Promise<any[]> {
+        const integrations = await this.listIntegrations(options);
+        return integrations.filter(integration => {
+            return integration.name.toLowerCase() === name.toLowerCase();
+        });
     }
 }
 

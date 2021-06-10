@@ -1,5 +1,9 @@
 # Release notes for Opsgenie CLI
 
+## 0.0.3
+
+- Can now enable or disable integrations either by id or name like this `opsgenie integrations enable --id=<integration-id>` or `opsgenie integrations enable --name=<integration-name>`
+
 ## 0.0.2 
 
 - Can now filter alerts using the `--query=<query>` argument. This is in the format of an Opsgenie query like you'd use in the UI.
