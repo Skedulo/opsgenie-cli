@@ -131,6 +131,8 @@ Disable an integration by name
 npx ts-node src/index.ts integrations disable --name="Amazon RDS Test"
 ```
 
+Use the `--dry-run` argument to see what changes would be applied without actually changing them.
+
 
 ## Building the executable
 

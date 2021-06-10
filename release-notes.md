@@ -4,6 +4,7 @@
 
 - Can now enable or disable integrations either by id or name like this `opsgenie integrations enable --id=<integration-id>` or `opsgenie integrations enable --name=<integration-name>`.
 - Can now list integrations by regular expression like this `opsgenie integrations --reg=<regex>`.
+- Added a `--dry-run` argument to show what will happen when making changes.
 
 ## 0.0.2 
 

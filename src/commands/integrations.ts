@@ -62,6 +62,8 @@ export class IntegrationsCommand implements IOpsgenieCommand {
             throw new Error(`Please specify integration(s) using --id=<integration-id>, --name=<integration-name> or --reg=<name-regex>.`);
         }
 
+        const dryRun = this.configuration.getArg<boolean>("dry-run") || false;
+
         let integrations: any[];
 
         if (integrationId) {
@@ -74,8 +76,17 @@ export class IntegrationsCommand implements IOpsgenieCommand {
             integrations = await this.matchRegex(new RegExp(integrationRegex!), options);
         }
 
-        for (const integration of integrations) {
-            await axios.post(`https://api.opsgenie.com/v2/integrations/${integration.id}/${apiOperation}`, {}, options);
+        if (dryRun) {
+            this.log.info(`Would ${apiOperation} ${integrations.length} integrations:`);
+
+            for (const integration of integrations) {
+                this.log.info(`  ${integration.name}`)
+            }
+        }
+        else {
+            for (const integration of integrations) {
+                await axios.post(`https://api.opsgenie.com/v2/integrations/${integration.id}/${apiOperation}`, {}, options);
+            }
         }
 
         this.log.info(`${action} ${integrations.length} integrations.`);
