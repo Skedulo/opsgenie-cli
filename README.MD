@@ -57,6 +57,18 @@ Listing integrations:
 npx ts-node src/index.ts integrations
 ```
 
+Enable an integration:
+
+```bash
+npx ts-node src/index.ts integrations enable <integration-id>
+```
+Disable an integration:
+
+```bash
+npx ts-node src/index.ts integrations disable <integration-id>
+```
+
+
 
 ## Building the executable
 

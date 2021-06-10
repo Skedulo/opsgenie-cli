@@ -21,21 +21,48 @@ export class IntegrationsCommand implements IOpsgenieCommand {
             throw new Error(`Please set environment variable OPSGENIE_API_KEY to your API key.`);
         }
 
-        const query = this.configuration.getArg("query") || "status: open";
-
         const options = {
             headers: {
                 "Authorization": `GenieKey ${apiKey}`,
             },
         };
 
-        const listResponse = await axios.get(`https://api.opsgenie.com/v2/integrations`, options);
-        const integrations = listResponse.data.data;
+        const subCommand = this.configuration.getMainCommand();
+        if (subCommand === undefined) {
+            const listResponse = await axios.get(`https://api.opsgenie.com/v2/integrations`, options);
+            const integrations = listResponse.data.data;
+    
+            const outputStream = new OutputStream();
+            outputStream.start();
+            outputStream.add(integrations);
+            outputStream.end();
+        }
+        else if (subCommand === "enable") {
+            this.configuration.consumeMainCommand();
+            const integrationId = this.configuration.getMainCommand();
+            if (integrationId === undefined) {
+                throw new Error(`Expected integration id like this: opsgenie integrations enable <integration-id>`);
+            }
 
-        const outputStream = new OutputStream();
-        outputStream.start();
-        outputStream.add(integrations);
-        outputStream.end();
+            await axios.post(`https://api.opsgenie.com/v2/integrations/${integrationId}/enable`, {}, options);
+
+            this.log.info("Disabled integration.");
+        }
+        else if (subCommand === "disable") {
+            this.configuration.consumeMainCommand();
+            const integrationId = this.configuration.getMainCommand();
+            if (integrationId === undefined) {
+                throw new Error(`Expected integration id like this: opsgenie integrations enable <integration-id>`);
+            }
+
+            await axios.post(`https://api.opsgenie.com/v2/integrations/${integrationId}/disable`, {}, options);
+
+            this.log.info("Disabled integration.");
+        }
+        else {
+            throw new Error(`"${subCommand}" is an unexpected sub command for command "integrations"`);
+        }       
+
     }
 }
 
