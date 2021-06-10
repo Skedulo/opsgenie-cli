@@ -4,6 +4,8 @@ A command line tool for interacting with Opsgenie.
 
 ## Usage
 
+### Setup
+
 Put the `opsgenie` executable in your path.
 
 Set your Opsgenie API key:
@@ -11,6 +13,8 @@ Set your Opsgenie API key:
 ```bash
 export OPSGENIE_API_KEY=<api-key>
 ```
+
+### Alerts
 
 Run command like this one to get alerts:
 
@@ -24,10 +28,18 @@ To get help:
 opsgenie --help
 ```
 
+### Integrations
+
 To list integrations:
 
 ```bash
 opsgenie integrations
+```
+
+To list integrations filtered by regex:
+
+```bash
+opsgenie integrations --reg=<integration-regex>
 ```
 
 To disable an integration:
@@ -42,7 +54,7 @@ To enable an integration:
 opsgenie integrations enable --id=<integration-id>
 ```
 
-You can also enable or disable integrations by name using the `--name=<integration-name>` argument.
+You can enable or disable integrations by name or regular expression using the `--name=<integration-name>` and `--reg=<integration-regex>` arguments.
 
 ## Using jq for data transformations
 

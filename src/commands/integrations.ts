@@ -29,7 +29,10 @@ export class IntegrationsCommand implements IOpsgenieCommand {
 
         const subCommand = this.configuration.getMainCommand();
         if (subCommand === undefined) {
-            const integrations = await this.listIntegrations(options);
+            const integrationRegex = this.configuration.getArg("reg");
+            let integrations = integrationRegex !== undefined
+                ? await this.matchRegex(new RegExp(integrationRegex), options)
+                : await this.listIntegrations(options);
     
             const outputStream = new OutputStream();
             outputStream.start();
