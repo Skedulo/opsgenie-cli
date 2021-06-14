@@ -51,6 +51,11 @@ export interface ICommandDesc {
     constructor: Function;
 
     //
+    // Sub-commands under the command.
+    //
+    subCommands?: ICommandDesc[];
+
+    //
     // Defines the --help hjoption output for the command.
     //
     help: ICommandHelp;

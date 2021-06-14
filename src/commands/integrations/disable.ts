@@ -1,14 +1,12 @@
 import { InjectableClass, InjectProperty } from "@codecapers/fusion";
-import { ICommand, ICommandDesc } from "../command";
-import { IConfiguration_id, IConfiguration } from "../services/configuration";
-import { ILog_id, ILog } from "../services/log";
+import { ICommand, ICommandDesc } from "../../command";
+import { IConfiguration_id, IConfiguration } from "../../services/configuration";
+import { ILog_id, ILog } from "../../services/log";
 import axios from "axios";
-import { OutputStream } from "../lib/output-stream";
-import integrationsEnableCommand from "./integrations/enable";
-import integrationsDisableCommand from "./integrations/disable";
+import { OutputStream } from "../../lib/output-stream";
 
 @InjectableClass()
-export class IntegrationsCommand implements ICommand {
+export class IntegrationsDisableCommand implements ICommand {
 
     @InjectProperty(IConfiguration_id)
     configuration!: IConfiguration;
@@ -28,15 +26,7 @@ export class IntegrationsCommand implements ICommand {
             },
         };
 
-        const integrationRegex = this.configuration.getArg("reg");
-        let integrations = integrationRegex !== undefined
-            ? await this.matchRegex(new RegExp(integrationRegex), options)
-            : await this.listIntegrations(options);
-
-        const outputStream = new OutputStream();
-        outputStream.start();
-        outputStream.add(integrations);
-        outputStream.end();
+        await this.actionIntegrations("disable", options, "Disabled");
     }
 
     //
@@ -111,15 +101,11 @@ export class IntegrationsCommand implements ICommand {
 }
 
 const command: ICommandDesc = {
-    name: "integrations",
-    description: "Retrieves opsgenie integrations.",
-    constructor: IntegrationsCommand,
-    subCommands: [
-        integrationsEnableCommand,
-        integrationsDisableCommand,
-    ],
+    name: "disable",
+    description: "Disables opsgenie integration(s).",
+    constructor: IntegrationsDisableCommand,
     help: {
-        usage: "opsgenie integrations",
+        usage: "opsgenie integrations disable [options]",
         message: "Prints open Opsgenie integrations to the terminal.",
         arguments: [
         ],

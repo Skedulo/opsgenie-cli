@@ -11,13 +11,35 @@ const packageInfo = require("../package.json");
 
 import { commands } from "./commands";
 import chalk = require("chalk");
+import command from "./commands/alerts";
 
 //
-// Cache commands for lookup.
+// Find a command or sub-command by name.
 //
-const commandMap: any = {};
-for (const command of commands) {
-    commandMap[command.name] = command;
+function findCommand(parentCommand: ICommandDesc | undefined, commandName: string): ICommandDesc {
+    let searchCommands: ICommandDesc[];
+    if (parentCommand) {
+        if (!parentCommand.subCommands) {
+            throw new Error(`Failed to find command ${commandName}, the parent command ${parentCommand.name} has no sub-commands!`);
+        }
+        searchCommands = parentCommand.subCommands;
+    }
+    else {
+        searchCommands = commands;
+    }
+
+    for (const command of searchCommands) {
+        if (command.name === commandName) {
+            return command;
+        }
+    }
+
+    if (parentCommand) {
+        throw new Error(`Failed to find command ${commandName} under command ${parentCommand.name}`);
+    }
+    else {
+        throw new Error(`Failed to find command ${commandName}`);
+    }
 }
 
 @InjectableClass()
@@ -45,37 +67,35 @@ export class Api {
             return;
         }
 
-        let cmd = this.configuration.getMainCommand();
+        let commandDesc: ICommandDesc | undefined = undefined;
+        while (true) {
+            const commandName = this.configuration.getMainCommand();
+            if (commandName === undefined) {
+                break;
+            }
+
+            commandDesc = findCommand(commandDesc, commandName);
+            this.configuration.consumeMainCommand();
+        }
 
         const help = this.configuration.getArg<boolean>("help");
         if (help) {
-            if (cmd === undefined) {
+            if (commandDesc === undefined) {
                 this.showGeneralHelp();
                 return;
             }
             else {
-                const command = commandMap[cmd];
-                if (command === undefined) {
-                    throw new Error(`Unexpected command ${cmd}`);
-                }
-
-                this.showCommandHelp(command);
+                this.showCommandHelp(commandDesc);
                 return;
             }
         }
 
-        if (cmd === undefined) {
+        if (commandDesc === undefined) {
             this.showGeneralHelp();
             return;
         }
 
-        // Consumes the main command, allows the next nested sub command to bubble up and be the new main command.
-        this.configuration.consumeMainCommand(); 
-
-        const Command = commandMap[cmd].constructor;
-        if (Command === undefined) {
-            throw new Error(`Unexpected command ${cmd}`);
-        }
+        const Command: any = commandDesc.constructor;
         const command: ICommand = new Command();
         await command.invoke();
     }
