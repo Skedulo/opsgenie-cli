@@ -6,7 +6,7 @@ import { ILog, InjectableClass, InjectProperty } from "@codecapers/fusion";
 import { IEnvironment, IEnvironment_id } from "./services/environment";
 import { ILog_id } from "./services/log";
 import { IConfiguration, IConfiguration_id } from "./services/configuration";
-import { IOpsgenieCommand, IOpsgenieCommandDesc, IOpsgenieCommandHelp } from "./lib/opsgenie-command";
+import { ICommand, ICommandDesc, ICommandHelp } from "./command";
 const packageInfo = require("../package.json");
 
 import { commands } from "./commands";
@@ -21,7 +21,7 @@ for (const command of commands) {
 }
 
 @InjectableClass()
-export class OpsgenieCli {
+export class Api {
     
     @InjectProperty(ILog_id)
     log!: ILog;
@@ -76,7 +76,7 @@ export class OpsgenieCli {
         if (Command === undefined) {
             throw new Error(`Unexpected command ${cmd}`);
         }
-        const command: IOpsgenieCommand = new Command();
+        const command: ICommand = new Command();
         await command.invoke();
     }
 
@@ -100,14 +100,14 @@ export class OpsgenieCli {
     //
     // Shows help for a sub-command.
     //
-    private showCommandHelp(command: IOpsgenieCommandDesc): void {
+    private showCommandHelp(command: ICommandDesc): void {
         this.showHelp(command.help);
     }
 
     //
     // Formats help described in the "help" object.
     //
-    private showHelp(help: IOpsgenieCommandHelp): void {
+    private showHelp(help: ICommandHelp): void {
         this.log.info(`\nUsage: ${chalk.blueBright(help.usage)}\n`);
         this.log.info(`${help.message}\n`);
 

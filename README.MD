@@ -16,18 +16,23 @@ export OPSGENIE_API_KEY=<api-key>
 
 ### Alerts
 
-Run command like this one to get alerts:
-
-```bash
-opsgenie alerts
-```
-
 To get help:
 
 ```bash
 opsgenie --help
 ```
 
+Run command like this one to get all open alerts:
+
+```bash
+opsgenie alerts
+```
+
+To search alerts:
+
+```bash
+opsgenie alerts --query=oomkill
+```
 ### Integrations
 
 To list integrations:
@@ -56,6 +61,14 @@ opsgenie integrations enable --id=<integration-id>
 
 You can enable or disable integrations by name or regular expression using the `--name=<integration-name>` and `--reg=<integration-regex>` arguments.
 
+The `--reg` argument allows bulk enable/disable of integrations, like this:
+
+```bash
+opsgenie integrations disable --reg=-core-prod-
+```
+
+Use the `--dry-run` argument to see what changes would be applied without actually changing them.
+
 ## Using jq for data transformations
 
 jq is a command line tool for working with JSON data: https://stedolan.github.io/jq/
@@ -71,9 +84,6 @@ Getting integration names as a JSON list:
 ```bash
 opsgenie integrations | jq "[.[] | .name]"
 ```
-
-Use the `--dry-run` argument to see what changes would be applied without actually changing them.
-
 ## Development
 
 ## Pre reqs

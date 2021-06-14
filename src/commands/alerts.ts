@@ -1,5 +1,5 @@
 import { InjectableClass, InjectProperty } from "@codecapers/fusion";
-import { IOpsgenieCommand, IOpsgenieCommandDesc } from "../lib/opsgenie-command";
+import { ICommand, ICommandDesc } from "../command";
 import { IConfiguration_id, IConfiguration } from "../services/configuration";
 import { ILog_id, ILog } from "../services/log";
 import axios from "axios";
@@ -20,7 +20,7 @@ async function listAlerts(query: string, offset: number, apiKey: string, options
     }
 }
 @InjectableClass()
-export class AlertsCommand implements IOpsgenieCommand {
+export class AlertsCommand implements ICommand {
 
     @InjectProperty(IConfiguration_id)
     configuration!: IConfiguration;
@@ -67,7 +67,7 @@ export class AlertsCommand implements IOpsgenieCommand {
     }
 }
 
-const command: IOpsgenieCommandDesc = {
+const command: ICommandDesc = {
     name: "alerts",
     description: "Retrieves opsgenie alerts.",
     constructor: AlertsCommand,

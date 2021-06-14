@@ -1,5 +1,5 @@
 import { InjectableClass, InjectProperty } from "@codecapers/fusion";
-import { IOpsgenieCommand, IOpsgenieCommandDesc } from "../lib/opsgenie-command";
+import { ICommand, ICommandDesc } from "../command";
 import { IConfiguration_id, IConfiguration } from "../services/configuration";
 import { ILog_id, ILog } from "../services/log";
 import axios from "axios";
@@ -7,7 +7,7 @@ import chalk = require("chalk");
 import { OutputStream } from "../lib/output-stream";
 
 @InjectableClass()
-export class IntegrationsCommand implements IOpsgenieCommand {
+export class IntegrationsCommand implements ICommand {
 
     @InjectProperty(IConfiguration_id)
     configuration!: IConfiguration;
@@ -122,7 +122,7 @@ export class IntegrationsCommand implements IOpsgenieCommand {
     }
 }
 
-const command: IOpsgenieCommandDesc = {
+const command: ICommandDesc = {
     name: "integrations",
     description: "Retrieves opsgenie integrations.",
     constructor: IntegrationsCommand,

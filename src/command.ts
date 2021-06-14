@@ -2,7 +2,7 @@
 //
 // Interface for a command.
 //
-export interface IOpsgenieCommand {
+export interface ICommand {
 
     //
     // Invokes the command.
@@ -13,7 +13,7 @@ export interface IOpsgenieCommand {
 //
 // Describes the help output for a particular command.
 //
-export interface IOpsgenieCommandHelp {
+export interface ICommandHelp {
     // 
     // Shows how to use the command.
     // 
@@ -33,7 +33,7 @@ export interface IOpsgenieCommandHelp {
 //
 // Describes a command.
 //
-export interface IOpsgenieCommandDesc {
+export interface ICommandDesc {
 
     //
     // The name of the command.
@@ -51,7 +51,7 @@ export interface IOpsgenieCommandDesc {
     constructor: Function;
 
     //
-    // Defines the --help option output for the command.
+    // Defines the --help hjoption output for the command.
     //
-    help: IOpsgenieCommandHelp;
+    help: ICommandHelp;
 }

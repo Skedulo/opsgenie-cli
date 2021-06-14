@@ -1,5 +1,5 @@
 import { registerSingleton } from "@codecapers/fusion";
-import { OpsgenieCli } from "./opsgenie-cli";
+import { Api } from "./api";
 import { Configuration, IConfiguration_id } from "./services/configuration";
 import * as minimist from "minimist";
 import { ILog_id, Log } from "./services/log";
@@ -29,7 +29,7 @@ async function main(): Promise<void> {
     //
     // Run Opsgenie CLI.
     //
-    const opsgenieCli = new OpsgenieCli();
+    const opsgenieCli = new Api();
     await opsgenieCli.invoke();
 }
 
