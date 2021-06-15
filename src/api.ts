@@ -161,7 +161,7 @@ export class Api {
         this.log.info(`${commandHelp.description}`);
         
         const padding = " ".repeat(4);
-        const columnPadding = 25;
+        const columnPadding = 18;
 
         if (subCommands) {
             this.log.info(`\n${chalk.blueBright("Commands")}:`);
