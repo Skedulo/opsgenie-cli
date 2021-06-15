@@ -118,8 +118,8 @@ const command: ICommandDesc = {
         integrationsDisableCommand,
     ],
     help: {
-        usage: "opsgenie integrations",
-        description: "Prints open Opsgenie integrations to the terminal.",
+        usage: "opsgenie integrations [<command>]",
+        description: "Prints open Opsgenie integrations to the terminal. By default this command lists integrations.",
     },
 };
 

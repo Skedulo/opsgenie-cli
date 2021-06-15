@@ -105,7 +105,25 @@ const command: ICommandDesc = {
     constructor: IntegrationsDisableCommand,
     help: {
         usage: "opsgenie integrations disable [options]",
-        description: "Prints open Opsgenie integrations to the terminal.",
+        description: "Disables Opsgenie integrations by id, name or regular expression",
+        options: [
+            {
+                name: "--id=<id>",
+                description: "Sets the id of the integration to disable."
+            },
+            {
+                name: "--id=<name>",
+                description: "Sets the name of the integration to disable."
+            },
+            {
+                name: "--regex=<regex>",
+                description: "Disable integrations by matching name against the regular expression.",
+            },
+            {
+                name: "--dry-run",
+                description: "Prints the names of integrations that would be affected, but doesn't actually make any changes.",
+            },
+        ],
     },
 };
 

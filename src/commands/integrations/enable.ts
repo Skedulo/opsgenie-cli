@@ -106,7 +106,25 @@ const command: ICommandDesc = {
     constructor: IntegrationsEnableCommand,
     help: {
         usage: "opsgenie integrations enable [options]",
-        description: "Enables Opsgenie integrations.",
+        description: "Enables Opsgenie integrations by id, name or regular expression",
+        options: [
+            {
+                name: "--id=<id>",
+                description: "Sets the id of the integration to enable."
+            },
+            {
+                name: "--id=<name>",
+                description: "Sets the name of the integration to enable."
+            },
+            {
+                name: "--regex=<regex>",
+                description: "Enables integrations by matching name against the regular expression.",
+            },
+            {
+                name: "--dry-run",
+                description: "Prints the names of integrations that would be affected, but doesn't actually make any changes.",
+            },
+        ],
     },
 };
 
