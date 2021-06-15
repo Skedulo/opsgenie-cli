@@ -144,8 +144,8 @@ export class Api {
     //
     // Shows help for a sub-command.
     //
-    private showCommandHelp(command: ICommandDesc, globalOptions?: IOptionHelp[]): void {
-        this.showHelp(command.help, command.subCommands, globalOptions);
+    private showCommandHelp(command: ICommandDesc): void {
+        this.showHelp(command.help, command.subCommands, this.globalOptions);
     }
 
     //
