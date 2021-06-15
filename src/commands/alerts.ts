@@ -69,15 +69,17 @@ export class AlertsCommand implements ICommand {
 
 const command: ICommandDesc = {
     name: "alerts",
-    description: "Retrieves opsgenie alerts.",
     constructor: AlertsCommand,
     help: {
         usage: "opsgenie alerts [options]",
         message: "Prints open Opsgenie alerts to the terminal. By default it lists open alerts.",
-        arguments: [
-            ["--query", `Search query to apply while filtering the alerts. Default: "status: open". Query syntax help: ${chalk.blue("https://docs.opsgenie.com/v1.0/docs/alerts-search-query-help")}`]
+        options: [
+            {
+                name: "--query", 
+                message: `Search query to apply while filtering the alerts. Default: "status: open". Query syntax help: ${chalk.blue("https://docs.opsgenie.com/v1.0/docs/alerts-search-query-help")}`,
+            },
         ],
-    }
+    },
 };
 
 export default command;

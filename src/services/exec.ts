@@ -3,7 +3,7 @@
 //
 
 import { InjectableSingleton } from "@codecapers/fusion";
-import { Command, ICommandOptions, ICommandResult } from "../lib/system-command";
+import { Command, ICommandOptions, ICommandResult } from "../lib/command";
 
 export const IExec_id = "IExec";
 

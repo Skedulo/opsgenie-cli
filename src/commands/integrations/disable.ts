@@ -102,14 +102,11 @@ export class IntegrationsDisableCommand implements ICommand {
 
 const command: ICommandDesc = {
     name: "disable",
-    description: "Disables opsgenie integration(s).",
     constructor: IntegrationsDisableCommand,
     help: {
         usage: "opsgenie integrations disable [options]",
         message: "Prints open Opsgenie integrations to the terminal.",
-        arguments: [
-        ],
-    }
+    },
 };
 
 export default command;

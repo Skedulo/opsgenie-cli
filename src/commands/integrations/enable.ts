@@ -103,14 +103,11 @@ export class IntegrationsEnableCommand implements ICommand {
 
 const command: ICommandDesc = {
     name: "enable",
-    description: "Enables opsgenie integration(s).",
     constructor: IntegrationsEnableCommand,
     help: {
         usage: "opsgenie integrations enable [options]",
         message: "Enables Opsgenie integrations.",
-        arguments: [
-        ],
-    }
+    },
 };
 
 export default command;

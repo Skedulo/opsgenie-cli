@@ -112,7 +112,6 @@ export class IntegrationsCommand implements ICommand {
 
 const command: ICommandDesc = {
     name: "integrations",
-    description: "Retrieves opsgenie integrations.",
     constructor: IntegrationsCommand,
     subCommands: [
         integrationsEnableCommand,
@@ -121,9 +120,7 @@ const command: ICommandDesc = {
     help: {
         usage: "opsgenie integrations",
         message: "Prints open Opsgenie integrations to the terminal.",
-        arguments: [
-        ],
-    }
+    },
 };
 
 export default command;

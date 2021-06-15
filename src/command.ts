@@ -10,6 +10,23 @@ export interface ICommand {
     invoke(): Promise<void>;
 }
 
+export interface IOptionHelp {
+    //
+    // The name of the options.
+    //
+    name: string;
+
+    //
+    // Describes the option.
+    //
+    message: string;
+
+    //
+    // The default value for the option.
+    //
+    defaultValue?: string;
+}
+
 //
 // Describes the help output for a particular command.
 //
@@ -25,9 +42,9 @@ export interface ICommandHelp {
     message: string;
 
     //
-    // Describe the arguments for the command.
+    // Describes the options for the command.
     //
-    arguments: [string, string][];
+    options?: IOptionHelp[];
 }
 
 //
@@ -41,11 +58,6 @@ export interface ICommandDesc {
     name: string;
 
     //
-    // The description of the command.
-    //
-    description: string;
-
-    //
     // Constructor function for the command.
     //
     constructor: Function;
@@ -56,7 +68,7 @@ export interface ICommandDesc {
     subCommands?: ICommandDesc[];
 
     //
-    // Defines the --help hjoption output for the command.
+    // Defines the --help output for the command.
     //
     help: ICommandHelp;
 }

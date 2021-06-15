@@ -6,7 +6,7 @@ import { ILog, InjectableClass, InjectProperty } from "@codecapers/fusion";
 import { IEnvironment, IEnvironment_id } from "./services/environment";
 import { ILog_id } from "./services/log";
 import { IConfiguration, IConfiguration_id } from "./services/configuration";
-import { ICommand, ICommandDesc, ICommandHelp } from "./command";
+import { ICommand, ICommandDesc, ICommandHelp, IOptionHelp } from "./command";
 const packageInfo = require("../package.json");
 
 import { commands } from "./commands";
@@ -100,44 +100,91 @@ export class Api {
         await command.invoke();
     }
 
+    private globalOptions = [
+        {
+            name: "--help",
+            message: "Shows help for opsgenie and sub-commands.",
+        },
+        {
+            name: "--version",
+            message: "Displays the current version number.",
+        },
+        {
+            name: "--non-interactive",
+            message: "Runs in non-interactive mode.",
+        },
+        {
+            name: "--verbose",
+            message: "Enables verbose logging.",
+        },
+        {
+            name: "--quiet",
+            message: "Enables quiet mode, supresses logging unless absolutely necessary.",
+        },
+        {
+            name: "--debug",
+            message: "Enables debug logging.",
+        },
+    ];
+
     //
     // Shows general help.
     //
     private showGeneralHelp(): void {
-        this.showHelp({
-            usage: `opsgenie <command> [options]`,
-            message: `Command line interface to Opsgenie.`,
-            arguments: [
-                [ "--version", "Displays the current version number." ],
-                [ "--non-interactive", "Runs in non-interactive mode." ],
-                [ "--verbose", "Enables versbose logging." ],
-                [ "--quiet", "Tuns in quiet mode, supresses logging unless absolutely necessary." ],
-                [ "--debug", "Enables debug logging." ],
-            ],
-        })
+        this.showHelp(
+            {
+                usage: `opsgenie <command> [options]`,
+                message: `Command line interface to Opsgenie.`,
+                options: this.globalOptions,
+            },
+            commands
+        );
     }
 
     //
     // Shows help for a sub-command.
     //
-    private showCommandHelp(command: ICommandDesc): void {
-        this.showHelp(command.help);
+    private showCommandHelp(command: ICommandDesc, globalOptions?: IOptionHelp[]): void {
+        this.showHelp(command.help, command.subCommands, globalOptions);
     }
 
     //
     // Formats help described in the "help" object.
     //
-    private showHelp(help: ICommandHelp): void {
-        this.log.info(`\nUsage: ${chalk.blueBright(help.usage)}\n`);
-        this.log.info(`${help.message}\n`);
+    private showHelp(commandHelp: ICommandHelp, subCommands?: ICommandDesc[], globalOptions?: IOptionHelp[]): void {
 
-        this.log.info(`Options:`);
+        const usage = commandHelp.usage
+            .replace("<command>", `<${chalk.blueBright("command")}>`)
+            .replace("[options]", `[${chalk.greenBright("options")}]`)
 
+        this.log.info(`\nUsage: ${usage}\n`);
+        this.log.info(`${commandHelp.message}`);
+        
         const padding = " ".repeat(4);
-        const optionsPadding = 25;
+        const columnPadding = 25;
 
-        for (const [argName, argDesc] of help.arguments) {
-            this.log.info(`${padding}${argName!.padEnd(optionsPadding)}${argDesc}`)
+        if (subCommands) {
+            this.log.info(`\n${chalk.blueBright("Commands")}:`);
+
+            for (const subCommand of subCommands) {
+                this.log.info(`${padding}${subCommand.name.padEnd(columnPadding)}${subCommand.help.message}`)
+            }
+        }
+
+        this.showOptions("Options", commandHelp.options, padding, columnPadding);
+        this.showOptions("Global options", globalOptions, padding, columnPadding);
+    }
+
+    private showOptions(name: string, options: IOptionHelp[] | undefined, padding: string, columnPadding: number) {
+        if (options) {
+            this.log.info(`\n${chalk.greenBright(name)}:`);
+
+            for (const option of options) {
+                this.log.info(`${padding}${option.name.padEnd(columnPadding)}${option.message}`);
+                if (option.defaultValue !== undefined) {
+                    this.log.info(`${padding}${" ".padEnd(columnPadding)}Default = ${chalk.cyan(option.defaultValue)}`);
+                }
+            }
         }
     }
 }

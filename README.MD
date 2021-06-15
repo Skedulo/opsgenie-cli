@@ -2,9 +2,9 @@
 
 A command line tool for interacting with Opsgenie.
 
-## Usage
+# Usage
 
-### Setup
+## Setup
 
 Put the `opsgenie` executable in your path.
 
@@ -14,7 +14,7 @@ Set your Opsgenie API key:
 export OPSGENIE_API_KEY=<api-key>
 ```
 
-### Alerts
+## Alerts
 
 To get help:
 
@@ -33,7 +33,7 @@ To search alerts:
 ```bash
 opsgenie alerts --query=oomkill
 ```
-### Integrations
+## Integrations
 
 To list integrations:
 
@@ -84,7 +84,7 @@ Getting integration names as a JSON list:
 ```bash
 opsgenie integrations | jq "[.[] | .name]"
 ```
-## Development
+# Development
 
 ## Pre reqs
 
