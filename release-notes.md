@@ -1,5 +1,9 @@
 # Release notes for Opsgenie CLI
 
+## 0.0.4 
+
+- Improved help system and content.
+
 ## 0.0.3
 
 - Can now enable or disable integrations either by id or name like this `opsgenie integrations enable --id=<integration-id>` or `opsgenie integrations enable --name=<integration-name>`.
