@@ -1,8 +1,8 @@
 {
   "name": "opsgenie",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
-  "description": "CLI tool for working with Opsgenie",
+  "description": "Command line tool for working with Opsgenie",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -27,7 +27,7 @@
     "opsgenie": "./bin/cli"
   },
   "keywords": [],
-  "author": "ashley@codecapers.com.au",
+  "author": "adavis@skedulo.com",
   "license": "MIT",
   "devDependencies": {
     "@types/chalk": "^2.2.0",
