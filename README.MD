@@ -132,13 +132,13 @@ npx ts-node src/index.ts integrations disable --id=<integration-id>
 Enable an integration ny name:
 
 ```bash
-npx ts-node src/index.ts integrations enable --name="Amazon RDS Test"
+npx ts-node src/index.ts integrations enable --name="rds-core-test"
 ```
 
 Disable an integration by name
 
 ```bash
-npx ts-node src/index.ts integrations disable --name="Amazon RDS Test"
+npx ts-node src/index.ts integrations disable --name="rds-core-test"
 ```
 
 ## Building the executable
