@@ -72,11 +72,11 @@ const command: ICommandDesc = {
     constructor: AlertsCommand,
     help: {
         usage: "opsgenie alerts [options]",
-        message: "Prints open Opsgenie alerts to the terminal. By default it lists open alerts.",
+        description: "Prints open Opsgenie alerts to the terminal. By default it lists open alerts.",
         options: [
             {
                 name: "--query", 
-                message: `Search query to apply while filtering the alerts. Default: "status: open". Query syntax help: ${chalk.blue("https://docs.opsgenie.com/v1.0/docs/alerts-search-query-help")}`,
+                description: `Search query to apply while filtering the alerts. Default: "status: open". Query syntax help: ${chalk.cyan("https://docs.opsgenie.com/v1.0/docs/alerts-search-query-help")}`,
             },
         ],
     },

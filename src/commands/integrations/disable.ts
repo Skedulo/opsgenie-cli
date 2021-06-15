@@ -105,7 +105,7 @@ const command: ICommandDesc = {
     constructor: IntegrationsDisableCommand,
     help: {
         usage: "opsgenie integrations disable [options]",
-        message: "Prints open Opsgenie integrations to the terminal.",
+        description: "Prints open Opsgenie integrations to the terminal.",
     },
 };
 

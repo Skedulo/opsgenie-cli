@@ -19,7 +19,7 @@ export interface IOptionHelp {
     //
     // Describes the option.
     //
-    message: string;
+    description: string;
 
     //
     // The default value for the option.
@@ -39,7 +39,7 @@ export interface ICommandHelp {
     //
     // Describes what the command does.
     //
-    message: string;
+    description: string;
 
     //
     // Describes the options for the command.

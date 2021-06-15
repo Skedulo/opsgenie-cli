@@ -119,7 +119,7 @@ const command: ICommandDesc = {
     ],
     help: {
         usage: "opsgenie integrations",
-        message: "Prints open Opsgenie integrations to the terminal.",
+        description: "Prints open Opsgenie integrations to the terminal.",
     },
 };
 

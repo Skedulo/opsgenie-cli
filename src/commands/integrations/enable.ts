@@ -106,7 +106,7 @@ const command: ICommandDesc = {
     constructor: IntegrationsEnableCommand,
     help: {
         usage: "opsgenie integrations enable [options]",
-        message: "Enables Opsgenie integrations.",
+        description: "Enables Opsgenie integrations.",
     },
 };
 

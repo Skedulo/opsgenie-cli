@@ -103,27 +103,27 @@ export class Api {
     private globalOptions = [
         {
             name: "--help",
-            message: "Shows help for opsgenie and sub-commands.",
+            description: "Shows help for opsgenie and sub-commands.",
         },
         {
             name: "--version",
-            message: "Displays the current version number.",
+            description: "Displays the current version number.",
         },
         {
             name: "--non-interactive",
-            message: "Runs in non-interactive mode.",
+            description: "Runs in non-interactive mode.",
         },
         {
             name: "--verbose",
-            message: "Enables verbose logging.",
+            description: "Enables verbose logging.",
         },
         {
             name: "--quiet",
-            message: "Enables quiet mode, supresses logging unless absolutely necessary.",
+            description: "Enables quiet mode, supresses logging unless absolutely necessary.",
         },
         {
             name: "--debug",
-            message: "Enables debug logging.",
+            description: "Enables debug logging.",
         },
     ];
 
@@ -134,7 +134,7 @@ export class Api {
         this.showHelp(
             {
                 usage: `opsgenie <command> [options]`,
-                message: `Command line interface to Opsgenie.`,
+                description: `Command line interface to Opsgenie.`,
                 options: this.globalOptions,
             },
             commands
@@ -158,7 +158,7 @@ export class Api {
             .replace("[options]", `[${chalk.greenBright("options")}]`)
 
         this.log.info(`\nUsage: ${usage}\n`);
-        this.log.info(`${commandHelp.message}`);
+        this.log.info(`${commandHelp.description}`);
         
         const padding = " ".repeat(4);
         const columnPadding = 25;
@@ -167,7 +167,7 @@ export class Api {
             this.log.info(`\n${chalk.blueBright("Commands")}:`);
 
             for (const subCommand of subCommands) {
-                this.log.info(`${padding}${subCommand.name.padEnd(columnPadding)}${subCommand.help.message}`)
+                this.log.info(`${padding}${subCommand.name.padEnd(columnPadding)}${subCommand.help.description}`)
             }
         }
 
@@ -180,7 +180,7 @@ export class Api {
             this.log.info(`\n${chalk.greenBright(name)}:`);
 
             for (const option of options) {
-                this.log.info(`${padding}${option.name.padEnd(columnPadding)}${option.message}`);
+                this.log.info(`${padding}${option.name.padEnd(columnPadding)}${option.description}`);
                 if (option.defaultValue !== undefined) {
                     this.log.info(`${padding}${" ".padEnd(columnPadding)}Default = ${chalk.cyan(option.defaultValue)}`);
                 }
