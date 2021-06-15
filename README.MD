@@ -6,7 +6,8 @@ A command line tool for interacting with Opsgenie.
 
 ## Setup
 
-Put the `opsgenie` executable in your path.
+
+Download [the latest `opsgenie`](https://github.com/Skedulo/opsgenie-cli/releases) executable and put it in your path.
 
 Set your Opsgenie API key:
 
