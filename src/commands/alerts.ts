@@ -8,9 +8,9 @@ import { OutputStream } from "../lib/output-stream";
 
 const pageSize = 100; // The max.
 
-async function listAlerts(query: string, offset: number, apiKey: string, options: any): Promise<any[]> {
+async function listAlerts(query: string, offset: number, domain: string, options: any): Promise<any[]> {
     try {
-        const listResponse = await axios.get(`https://api.opsgenie.com/v2/alerts?offset=${offset}&limit=${pageSize}&query=${query}`, options);
+        const listResponse = await axios.get(`https://${domain}/v2/alerts?offset=${offset}&limit=${pageSize}&query=${query}`, options);
         return listResponse.data.data;
     }
     catch (err) {
@@ -47,8 +47,10 @@ export class AlertsCommand implements ICommand {
 
         const maxAlerts = 20000;
         let offset = 0;
+
+        const domain = this.configuration.getOpsGenieDomain();
         while (true) {
-            const data = await listAlerts(query, offset, apiKey, options);
+            const data = await listAlerts(query, offset, domain, options);
             if (data.length === 0) {
                 break;
             }

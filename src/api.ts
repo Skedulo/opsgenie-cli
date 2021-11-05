@@ -125,6 +125,10 @@ export class Api {
             name: "--debug",
             description: "Enables debug logging.",
         },
+        {
+            name: "--domain <domain>",
+            description: "Overrides the default domain to contact OpsGenie, for example to use OpsGenie EU endpoint.",
+        },
     ];
 
     //

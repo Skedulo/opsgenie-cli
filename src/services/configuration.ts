@@ -61,6 +61,11 @@ export interface IConfiguration {
     // Get the local path for the plugin, if specified.
     //
     getLocalPluginPath(): string | undefined;    
+
+    //
+    // Get the OpsGenie domain to send commands to. This will be, by default, "api.opsgenie.com"
+    //
+    getOpsGenieDomain(): string;
 }
 
 @InjectableClass()
@@ -69,6 +74,7 @@ export class Configuration implements IConfiguration {
     private projectType: string | undefined;
     private localPluginPath: string | undefined;
     private pluginUrl: string | undefined;
+    private opsGenieDomain: string | undefined;
     
     //
     // Command line arguments to the application.
@@ -180,5 +186,16 @@ export class Configuration implements IConfiguration {
         }
 
         return this.localPluginPath;
+    }
+
+    getOpsGenieDomain(): string {
+        if (!this.opsGenieDomain) {
+            this.opsGenieDomain = this.getArg<string>("domain");
+            if (!this.opsGenieDomain) {
+                this.opsGenieDomain = "api.opsgenie.com"
+            }
+        }
+
+        return this.opsGenieDomain;
     }
 }
