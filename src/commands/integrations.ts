@@ -46,6 +46,8 @@ export class IntegrationsCommand implements ICommand {
         const integrationId = this.configuration.getArg("id");
         const integrationName = this.configuration.getArg("name");
         const integrationRegex = this.configuration.getArg("reg");
+        const domain = this.configuration.getOpsGenieDomain();
+
         if (!integrationId && !integrationName && !integrationRegex) {
             throw new Error(`Please specify integration(s) using --id=<integration-id>, --name=<integration-name> or --reg=<name-regex>.`);
         }
@@ -73,7 +75,7 @@ export class IntegrationsCommand implements ICommand {
         }
         else {
             for (const integration of integrations) {
-                await axios.post(`https://api.opsgenie.com/v2/integrations/${integration.id}/${apiOperation}`, {}, options);
+                await axios.post(`https://${domain}/v2/integrations/${integration.id}/${apiOperation}`, {}, options);
             }
         }
 
@@ -84,7 +86,9 @@ export class IntegrationsCommand implements ICommand {
     // Gets the list of all integrations.
     //
     private async listIntegrations(options: any): Promise<any[]> {
-        const listResponse = await axios.get(`https://api.opsgenie.com/v2/integrations`, options);
+        const domain = this.configuration.getOpsGenieDomain();
+
+        const listResponse = await axios.get(`https://${domain}/v2/integrations`, options);
         const integrations = listResponse.data.data;
         return integrations;
     }

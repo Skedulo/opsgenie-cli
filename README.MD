@@ -68,6 +68,12 @@ The `--reg` argument allows bulk enable/disable of integrations, like this:
 opsgenie integrations disable --reg=-core-prod-
 ```
 
+opsgenie-cli uses `api.opsgenie.com` by default. If you want to override the domain (for example, if you are working with OpsGenie EU), you can override it with the `--domain <domain>` argument. For example:
+
+```bash
+opsgenie alerts --domain api.eu.opsgenie.com
+```
+
 Use the `--dry-run` argument to see what changes would be applied without actually changing them.
 
 ## Using jq for data transformations
